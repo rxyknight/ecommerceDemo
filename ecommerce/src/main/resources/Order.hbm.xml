@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.developerroy.demo.ecommerce.model">
+    <class name="Order" table="ORDERS">
+        <id name="orderId" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="status" column="status"></property>
+        <property name="customer" column="customer"></property>
+        <property name="address" column="address"></property>
+        <property name="totalPrice" column="totalprice"></property>
+        <property name="shippingCost" column="shippingcost"></property>
+        <property name="finalCost" column="finalcost"></property>
+        <property name="cartStr" column="cart"></property>
+    </class> 
+</hibernate-mapping>

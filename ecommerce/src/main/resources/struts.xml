@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+	<package name="public" extends="struts-default" namespace="/">
+
+
+
+		<action name="regularLogin"
+			class="com.developerroy.demo.ecommerce.controller.UserLogin" method="regularLogin">
+			<result name="input">/regularlogin.jsp</result>
+			<result name="success" type="redirect">${redirectUrl}</result>
+		</action>
+		<action name="adminLogin"
+			class="com.developerroy.demo.ecommerce.controller.UserLogin" method="adminLogin">
+			<result name="input">/adminlogin.jsp</result>
+			<result name="success" type="redirect">${redirectUrl}</result>
+		</action>
+
+		<action name="logout"
+			class="com.developerroy.demo.ecommerce.controller.UserLogout">
+			<result name="success">/index.jsp</result>
+		</action>
+
+	</package>
+	<package name="regular" extends="struts-default" namespace="/regular">
+		<interceptors>
+			<interceptor name="regularAuthentication"
+				class="com.developerroy.demo.ecommerce.controller.RegularAuthenticationInterceptor" />
+			<interceptor-stack name="regularAuthenticationStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="regularAuthentication" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="regularAuthenticationStack" />
+		<global-results>
+			<result name="regularlogin">/regularlogin.jsp</result>
+		</global-results>
+
+		<action name="regularEntry"
+			class="com.developerroy.demo.ecommerce.controller.EntryAction"
+			method="regularEntry">
+			<result name="success">/query.jsp</result>
+		</action>
+		<action name="queryProducts"
+			class="com.developerroy.demo.ecommerce.controller.QueryAction"
+			method="queryProducts">
+			<result name="success">/queryresults.jsp</result>
+		</action>
+		<action name="addToCart"
+			class="com.developerroy.demo.ecommerce.controller.CartAction" method="addToCart">
+			<result name="success" type="httpheader">
+				<param name="status">200</param>
+			</result>
+		</action>
+		<action name="removeFromCart"
+			class="com.developerroy.demo.ecommerce.controller.CartAction" method="removeFromCart">
+			<result name="success" type="httpheader">
+				<param name="status">200</param>
+			</result>
+			<result name="error" type="httpheader">
+				<param name="status">400</param>
+			</result>
+		</action>
+		<action name="clearCart"
+			class="com.developerroy.demo.ecommerce.controller.CartAction" method="clearCart">
+			<result name="success" type="httpheader">
+				<param name="status">200</param>
+			</result>
+			<result name="error" type="httpheader">
+				<param name="status">400</param>
+			</result>
+		</action>
+
+		<action name="loadCart"
+			class="com.developerroy.demo.ecommerce.controller.CartAction" method="loadCart">
+			<result name="no_cart">/cart_partial_empty.jsp</result>
+			<result name="success">/cart_partial.jsp</result>
+		</action>
+		<action name="checkOut"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="checkOut">
+			<result name="success">/placeOrder.jsp</result>
+		</action>
+		<action name="submitOrder"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="submitOrder">
+			<result name="invalid">/address_invalid.jsp</result>
+			<result name="success">/orderSuccess.jsp</result>
+		</action>
+		<action name="discardOrder"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="discardOrder">
+			<result name="success">/query.jsp</result>
+		</action>
+		<action name="myOrders"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="myOrders">
+			<result name="success">/myOrdersDetail.jsp</result>
+		</action>
+		<action name="itemInfo"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="itemInfo">
+			<result name="success">/itemInfo.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="admin" extends="json-default" namespace="/admin">
+		<interceptors>
+			<interceptor name="adminAuthentication"
+				class="com.developerroy.demo.ecommerce.controller.AdminAuthenticationInterceptor" />
+			<interceptor-stack name="adminAuthenticationStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="adminAuthentication" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="adminAuthenticationStack" />
+		<global-results>
+			<result name="adminlogin">/adminlogin.jsp</result>
+		</global-results>
+
+		<action name="adminEntry"
+			class="com.developerroy.demo.ecommerce.controller.EntryAction"
+			method="adminEntry">
+			<result name="success">/adminFunction.jsp</result>
+		</action>
+
+		<action name="showAllOrders"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="showAllOrders">
+			<result name="success">/allOrders.jsp</result>
+		</action>
+		<action name="updateStatus"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="updateStatus">
+			<result name="success" type="json">
+				<param name="root">statusData</param>
+			</result>
+		</action>
+
+		<action name="orderDeatil"
+			class="com.developerroy.demo.ecommerce.controller.OrderAction"
+			method="orderDeatil">
+			<result name="success" type="json">
+				<param name="root">order</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

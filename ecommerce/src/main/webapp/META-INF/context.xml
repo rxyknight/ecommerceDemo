@@ -1,0 +1,14 @@
+<Context path="/ecommerce">
+    <Resource name="jdbc/Ecommence"
+              type="javax.sql.DataSource"
+              username="root"
+              password="root"
+              driverClassName="com.mysql.jdbc.Driver"
+              maxIdle="2"
+              maxWait="5000"
+              validationQuery="SELECT * FROM users"
+              url="jdbc:mysql://127.0.0.1:3306/comp5347assignment2"
+              maxActive="4" 
+              poolPreparedStatements="true"
+              />
+</Context>
